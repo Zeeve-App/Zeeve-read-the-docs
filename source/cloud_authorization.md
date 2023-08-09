@@ -8,8 +8,10 @@ Zeeve allows you to authorize multiple cloud accounts of yours so as to create n
 Zeeve supports a list of cloud for you to choose from. You can authorize multiple clouds and choose between them at the time of creating networks or nodes. Following is the list of currently supported clouds:-
 
 1. AWS
-2. Digital Ocean 
-
+2. Digital Ocean
+3. GCP
+4. Vultr
+5. Tencent Cloud
 
 ---
 ***INTERESTING FACT:** Zeeve doesn't use **blockchain services** of any of the supported cloud platforms, and hence is not restricted for the level of features it can provide for a protocol on any cloud.*
@@ -81,6 +83,34 @@ After which on Zeeve do following steps:-
 6. After that click on the team which you want to give access and click on **Authorize Application**.
 
     ![img](./images/DOoauth.png)
+
+## GCP Cloud Authorization
+
+To authorize your GCP account on Zeeve you'll need to ensure certain things:-
+ 
+> User must have an account with enough permissions to create - 
+> * Compute Services
+> * Service Account
+> * Kubernetes service.
+
+1. Hover on **profile** 
+ 
+    ![img](./images/profile.png)
+
+2. Click on **Edit Profile**
+ 
+    ![img](./images/profilemenu.png)
+
+3. Click on **My Cloud**.
+
+4. Click on **GCP** and then click on **Add GCP Cloud**.
+
+   ![img](./images/addGCPCloud.png)
+
+5. Authorize GCP will redirect you to login page, you can add your GCP credentials and then click on **Add Cloud**.
+
+   ![img](./images/gcpLogin.png)
+
 
 ## Tencent Cloud Authorization
 
@@ -161,3 +191,23 @@ Before you authorize Tencent Cloud on Zeeve, you will need to add Zeeve's IDP in
 7. This will lead you to a consent screen where you will need to **Accept** the Terms & Conditions to allow Zeeve to use your credentials.
 
     ![img](./images/consentScreen.png)
+
+## Vultr Cloud Authorization
+
+To authorize your Vultr account on Zeeve:-
+
+1. Hover on **profile** 
+
+    ![img](./images/profile.png)
+
+2. Click on **Edit Profile**
+ 
+    ![img](./images/profilemenu.png)
+
+3. Click on **My Cloud**.
+
+    ![img](./images/editprofile.png)
+
+4. Click on **Vultr** and then click on **Add Vultr Cloud**.
+
+5. You will need Vultr Access Token, to authenticate your Vultr account with Zeeve.
