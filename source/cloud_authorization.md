@@ -24,6 +24,38 @@ Zeeve supports a list of cloud for you to choose from. You can authorize multipl
 Before you authorize your AWS account with Zeeve, you'll need following permissions to deploy a network:
 > * Permission to create VPC, Elastic Ips, EC2 instance, Security group, Internet gateway and Route tables.
 > * For Fabric, you need additional permissions to read/write EKS, CloudFormation and to create and pass any Role in IAM.
+> * Specific Permissions in AWS Account:
+>     * AmazonEC2FullAccess
+>     * ServiceQuotasReadOnlyAccess
+>     * "eks:UpdateClusterVersion"
+>     * "eks:ListTagsForResource"
+>     * "eks:UpdateAddon"
+>     * "eks:ListAddons"
+>     * "eks:UpdateClusterConfig"
+>     * "eks:DescribeAddon"
+>     * "eks:UpdateNodegroupVersion"
+>     * "eks:DescribeNodegroup"
+>     * "eks:AssociateEncryptionConfig"
+>     * "eks:ListUpdates"
+>     * "eks:DescribeAddonVersions"
+>     * "eks:ListIdentityProviderConfigs"
+>     * "eks:CreateCluster"
+>     * "eks:ListNodegroups"
+>     * "eks:DescribeAddonConfiguration"
+>     * "eks:CreateNodegroup"
+>     * "eks:RegisterCluster"
+>     * "eks:DeregisterCluster"
+>     * "eks:DeleteCluster"
+>     * "eks:ListFargateProfiles"
+>     * "eks:DescribeIdentityProviderConfig"
+>     * "eks:DeleteAddon"
+>     * "eks:DeleteNodegroup"
+>     * "eks:DescribeUpdate"
+>     * "eks:AccessKubernetesApi"
+>     * "eks:CreateAddon"
+>     * "eks:UpdateNodegroupConfig"
+>     * "eks:DescribeCluster"
+>     * "eks:ListClusters"
 
 To authorize your AWS account on Zeeve:-
 
@@ -55,7 +87,10 @@ To authorize your Digital Ocean account on Zeeve you'll need to ensure certain t
 > * User must have an account with enough permissions to create - 
 > * Project
 > * Droplets
-> * and Kubernetes service.
+> * Kubernetes service.
+> * Specific Scope in DO Account:
+>     * Read
+>     * Write
 
 After which on Zeeve do following steps:- 
 
@@ -92,6 +127,62 @@ To authorize your GCP account on Zeeve you'll need to ensure certain things:-
 > * Compute Services
 > * Service Account
 > * Kubernetes service.
+> * Specific Permissions in GCP Account:
+>     * 'compute.globalOperations.get'
+>     * 'compute.machineTypes.get'
+>     * 'compute.networks.create'
+>     * 'compute.networks.delete'
+>     * 'compute.networks.get'
+>     * 'compute.networks.updatePolicy'
+>     * 'compute.projects.get'
+>     * 'compute.regionOperations.get'
+>     * 'compute.regions.get'
+>     * 'compute.routers.create'
+>     * 'compute.routers.delete'
+>     * 'compute.routers.get'
+>     * 'compute.routers.update'
+>     * 'compute.routes.create'
+>     * 'compute.routes.delete'
+>     * 'compute.routes.get'
+>     * 'compute.subnetworks.create'
+>     * 'compute.subnetworks.delete'
+>     * 'compute.subnetworks.get'
+>     * 'compute.zones.list'
+>     * 'resourcemanager.projects.get'
+>     * 'compute.disks.create'
+>     * 'compute.instances.create'
+>     * 'compute.instances.get'
+>     * 'compute.instances.setMetadata'
+>     * 'iam.serviceAccounts.create'
+>     * 'iam.serviceAccounts.delete'
+>     * 'iam.serviceAccounts.get'
+>     * 'iam.serviceAccountKeys.create'
+>     * 'iam.serviceAccountKeys.delete'
+>     * 'iam.serviceAccountKeys.get'
+>     * 'iam.serviceAccounts.actAs',
+>     * 'container.clusters.create'
+>     * 'container.clusters.delete'
+>     * 'container.clusters.get'
+>     * 'container.clusters.getCredentials'
+>     * 'container.clusters.update'
+>     * 'container.operations.get'
+>     * 'container.clusters.list'
+>     * 'container.deployments.delete'
+>     * 'container.deployments.get'
+>     * 'container.namespaces.list'
+>     * 'container.namespaces.get'
+>     * 'container.services.get',
+>     * 'compute.disks.createSnapshot'
+>     * 'compute.snapshots.get'
+>     * 'compute.snapshots.create'
+>     * 'compute.snapshots.useReadOnly'
+>     * 'compute.snapshots.delete'
+>     * 'compute.zones.get'
+>     * 'storage.objects.create'
+>     * 'storage.objects.delete'
+>     * 'storage.objects.get'
+>     * 'storage.objects.list'
+>     * 'iam.serviceAccounts.signBlob'
 
 1. Hover on **profile** 
  
