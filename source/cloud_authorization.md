@@ -21,40 +21,386 @@ Zeeve supports a list of cloud for you to choose from. You can authorize multipl
 ## AWS Authorization
 
 Before you authorize your AWS account with Zeeve, you'll need following permissions to deploy a network:
-> * Permission to create VPC, Elastic Ips, EC2 instance, Security group, Internet gateway and Route tables.
-> * For Fabric, you need additional permissions to read/write EKS, CloudFormation and to create and pass any Role in IAM.
-> * Specific Permissions in AWS Account:
->     * AmazonEC2FullAccess
->     * ServiceQuotasReadOnlyAccess
->     * "eks:UpdateClusterVersion"
->     * "eks:ListTagsForResource"
->     * "eks:UpdateAddon"
->     * "eks:ListAddons"
->     * "eks:UpdateClusterConfig"
->     * "eks:DescribeAddon"
->     * "eks:UpdateNodegroupVersion"
->     * "eks:DescribeNodegroup"
->     * "eks:AssociateEncryptionConfig"
->     * "eks:ListUpdates"
->     * "eks:DescribeAddonVersions"
->     * "eks:ListIdentityProviderConfigs"
->     * "eks:CreateCluster"
->     * "eks:ListNodegroups"
->     * "eks:DescribeAddonConfiguration"
->     * "eks:CreateNodegroup"
->     * "eks:RegisterCluster"
->     * "eks:DeregisterCluster"
->     * "eks:DeleteCluster"
->     * "eks:ListFargateProfiles"
->     * "eks:DescribeIdentityProviderConfig"
->     * "eks:DeleteAddon"
->     * "eks:DeleteNodegroup"
->     * "eks:DescribeUpdate"
->     * "eks:AccessKubernetesApi"
->     * "eks:CreateAddon"
->     * "eks:UpdateNodegroupConfig"
->     * "eks:DescribeCluster"
->     * "eks:ListClusters"
+
+<details>
+  <summary><i>Instance Based</i></summary>
+
+```shell
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "logs:CreateLogStream",
+                "logs:TagLogGroup",
+                "logs:DeleteLogGroup",
+                "logs:TagResource",
+                "logs:PutRetentionPolicy",
+                "logs:CreateLogGroup"
+            ],
+            "Resource": [
+                "arn:aws:logs:*:ACCOUNTID:destination:*",
+                "arn:aws:logs:*:ACCOUNTID:log-group:*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "logs:DeleteDestination",
+                "logs:TagResource"
+            ],
+            "Resource": [
+                "arn:aws:logs:*:ACCOUNTID:log-group:*:log-stream:*",
+                "arn:aws:logs:*:ACCOUNTID:destination:*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "logs:ListTagsLogGroup",
+                "logs:TagResource"
+            ],
+            "Resource": "arn:aws:logs:*:ACCOUNTID:log-group:*:log-stream:*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "logs:DescribeLogGroups",
+                "logs:DescribeDestinations"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iam:GetRole",
+                "iam:UpdateAssumeRolePolicy",
+                "iam:GetPolicyVersion",
+                "iam:GetPolicy",
+                "iam:DeletePolicy",
+                "iam:AttachRolePolicy",
+                "iam:CreatePolicy",
+                "iam:ListInstanceProfilesForRole",
+                "iam:ListRolePolicies",
+                "iam:GetRolePolicy"
+            ],
+            "Resource": [
+                "arn:aws:iam::ACCOUNTID:policy/*",
+                "arn:aws:iam::ACCOUNTID:role/*"
+            ]
+        }
+    ]
+}
+```
+
+**CloudWatch Permissions**
+```shell
+{
+   "Version": "2012-10-17",
+   "Statement": [
+       {
+           "Effect": "Allow",
+           "Action": [
+               "logs:CreateLogStream",
+               "logs:TagLogGroup",
+               "logs:DeleteLogGroup",
+               "logs:TagResource",
+               "logs:PutRetentionPolicy",
+               "logs:CreateLogGroup",
+               "logs:DeleteDestination",
+               "logs:TagResource",
+               "logs:ListTagsLogGroup"
+           ],
+           "Resource": [
+               "arn:aws:logs:*:ACCOUNTID:destination:*",
+               "arn:aws:logs:*:ACCOUNTID:log-group:*"
+           ]
+       },
+       {
+           "Effect": "Allow",
+           "Action": [
+               "logs:DescribeLogGroups",
+               "logs:DescribeDestinations"
+           ],
+           "Resource": "*"
+       }
+   ]
+}
+```
+
+**Other Policy ARN**
+arn:aws:iam::aws:policy/AmazonEC2FullAccess
+
+</details>
+
+<details>
+  <summary><i>Zeeve K8</i></summary>
+
+```shell
+{
+   "Version": "2012-10-17",
+   "Statement": [
+       {
+           "Effect": "Allow",
+           "Action": [
+               "elasticfilesystem:CreateFileSystem",
+               "eks:ListClusters",
+               "eks:DescribeAddonVersions",
+               "eks:RegisterCluster",
+               "eks:CreateCluster"
+           ],
+           "Resource": "*"
+       },
+       {
+           "Effect": "Allow",
+           "Action": [
+               "elasticfilesystem:DescribeMountTargets",
+               "elasticfilesystem:DeleteAccessPoint",
+               "elasticfilesystem:CreateMountTarget",
+               "elasticfilesystem:DescribeLifecycleConfiguration",
+               "elasticfilesystem:DescribeFileSystems",
+               "elasticfilesystem:DeleteMountTarget",
+               "elasticfilesystem:CreateAccessPoint",
+               "elasticfilesystem:DeleteFileSystem",
+               "elasticfilesystem:DescribeMountTargetSecurityGroups",
+               "elasticfilesystem:TagResource"
+           ],
+           "Resource": [
+               "arn:aws:elasticfilesystem:*:ACCOUNTID:file-system/*",
+               "arn:aws:elasticfilesystem:*:ACCOUNTID:access-point/*"
+           ]
+       },
+       {
+           "Effect": "Allow",
+           "Action": "eks:*",
+           "Resource": [
+               "arn:aws:eks:*:ACCOUNTID:cluster/*",
+               "arn:aws:eks:*:ACCOUNTID:nodegroup/*/*/*",
+               "arn:aws:eks:*:ACCOUNTID:fargateprofile/*/*/*",
+               "arn:aws:eks:*:ACCOUNTID:addon/*/*/*",
+               "arn:aws:eks:*:ACCOUNTID:identityproviderconfig/*/*/*/*"
+           ]
+       },
+       {
+           "Effect": "Allow",
+           "Action": [
+               "secretsmanager:CreateSecret",
+               "secretsmanager:UpdateSecret",
+               "secretsmanager:DescribeSecret",
+               "secretsmanager:GetSecretValue",
+               "secretsmanager:PutSecretValue",
+               "secretsmanager:ReplicateSecretToRegions",
+               "secretsmanager:TagResource"
+           ],
+           "Resource": [
+               "*"
+           ]
+       },
+       {
+           "Effect": "Allow",
+           "Action": [
+               "iam:GetRole",
+               "iam:UpdateAssumeRolePolicy",
+               "iam:GetPolicyVersion",
+               "iam:GetPolicy",
+               "iam:DeletePolicy",
+               "iam:CreateRole",
+               "iam:DeleteRole",
+               "iam:AttachRolePolicy",
+               "iam:CreateOpenIDConnectProvider",
+               "iam:CreatePolicy",
+               "iam:ListInstanceProfilesForRole",
+               "iam:PassRole",
+               "iam:DetachRolePolicy",
+               "iam:ListPolicyVersions",
+               "iam:ListAttachedRolePolicies",
+               "iam:ListRolePolicies",
+               "iam:GetOpenIDConnectProvider",
+               "iam:DeleteOpenIDConnectProvider"
+           ],
+           "Resource": [
+               "arn:aws:iam::ACCOUNTID:policy/*",
+               "arn:aws:iam::ACCOUNTID:oidc-provider/*",
+               "arn:aws:iam::ACCOUNTID:role/*"
+           ]
+       }
+   ]
+}
+```
+
+**Cloudwatch IAM Permissions**
+```shell
+{
+   "Version": "2012-10-17",
+   "Statement": [
+       {
+           "Effect": "Allow",
+           "Action": [
+               "logs:CreateLogStream",
+               "logs:TagLogGroup",
+               "logs:DeleteLogGroup",
+               "logs:TagResource",
+               "logs:PutRetentionPolicy",
+               "logs:CreateLogGroup",
+               "logs:DeleteDestination",
+               "logs:TagResource",
+               "logs:ListTagsLogGroup"
+           ],
+           "Resource": [
+               "arn:aws:logs:*:ACCOUNTID:destination:*",
+               "arn:aws:logs:*:ACCOUNTID:log-group:*"
+           ]
+       },
+       {
+           "Effect": "Allow",
+           "Action": [
+               "logs:DescribeLogGroups",
+               "logs:DescribeDestinations"
+           ],
+           "Resource": "*"
+       }
+   ]
+}
+```
+**Other Policy ARN**
+arn:aws:iam::aws:policy/AmazonEC2FullAccess
+
+</details>
+
+<details>
+  <summary><i>DMZ Corda</i></summary>
+
+```shell
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+            	"route53:GetHostedZone",
+            	"route53:CreateHostedZone",
+                "iam:CreateInstanceProfile",
+                "iam:DeleteInstanceProfile",
+                "iam:GetInstanceProfile",
+                "iam:TagRole",
+                "route53:GetChange",
+                "route53:ChangeResourceRecordSets",
+                "iam:RemoveRoleFromInstanceProfile",
+                "iam:PutRolePolicy",
+                "route53:ListTagsForResource",
+                "iam:AddRoleToInstanceProfile",
+                "route53:ListTagsForResources",
+                "iam:DeleteRolePolicy",
+                "route53:ListResourceRecordSets",
+                "route53:AssociateVPCWithHostedZone"
+            ],
+            "Resource": [
+                "arn:aws:route53:::hostedzone/*",
+                "arn:aws:route53:::healthcheck/*",
+                "arn:aws:route53:::change/*",
+                "arn:aws:iam::ACCOUNTID:role/*",
+                "arn:aws:iam::ACCOUNTID:instance-profile/*",
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+            	"kms:PutKeyPolicy",
+            	"kms:DescribeKey",
+            	"kms:CreateGrant",
+                "kms:EnableKeyRotation",
+                "kms:Decrypt",
+                "kms:GetKeyRotationStatus",
+                "kms:GenerateDataKey",
+                "route53:DeleteHostedZone",
+                "kms:GenerateDataKeyPair",
+                "kms:CreateGrant",
+                "kms:ScheduleKeyDeletion",
+                "kms:GetKeyPolicy",
+                "kms:ListResourceTags",
+                "kms:TagResource"
+            ],
+            "Resource": [
+                "arn:aws:kms:*:ACCOUNTID:key/*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+            	"ecr:DeleteRepository",
+                "ecr:PutImage",
+            	"ecr:DeleteRepository",
+            	"ecr:TagResource",
+                "ecr:ListTagsForResource",
+                "ecr:UploadLayerPart",
+                "ecr:CompleteLayerUpload",
+                "ecr:DescribeRepositories",
+                "ecr:InitiateLayerUpload",
+                "ecr:BatchCheckLayerAvailability"
+            ],
+            "Resource": "arn:aws:ecr:*:ACCOUNTID:repository/*",
+        },
+        {
+            "Action": "ec2:*",
+            "Effect": "Allow",
+            "Resource": "*"
+        },
+        {
+            "Action": "ec2:*",
+            "Effect": "Allow",
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "elasticloadbalancing:*",
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "cloudwatch:*",
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "autoscaling:*",
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "eks:*",
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "rds:AddTagsToResource",
+                "rds:DescribeDBSubnetGroups",
+                "ecr:CreateRepository",
+                "rds:DescribeGlobalClusters",
+                "route53:ListHostedZones",
+                "ecr:GetAuthorizationToken",
+                "rds:CreateDBSubnetGroup",
+                "rds:DeleteDBSubnetGroup",
+                "rds:ListTagsForResource",
+                "rds:CreateDBCluster",
+                "rds:CreateDBInstance",
+                "rds:DescribeDBInstances",
+                "kms:CreateKey",
+                "rds:DeleteDBCluster",
+                "rds:DescribeDBClusters",
+                "rds:DeleteDBInstance"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+```
+
+**Other Policy ARN**
+arn:aws:iam::aws:policy/AmazonEC2FullAccess
+
+</details>
 
 To authorize your AWS account on Zeeve:-
 
