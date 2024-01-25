@@ -25,6 +25,7 @@ Welcome to Zeeve's documentation!
    ../Avalanche.md
    ../Binance.md
    ../Coreum.md
+   ../Besu.md
    ../Dcomm.md
    ../EnergyWeb.md
    ../Fantom.md
